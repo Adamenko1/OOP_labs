@@ -3,7 +3,7 @@
 
 namespace Data { // объявление пространства имён
     template<typename T> // шаблон
-    class Array3d { 
+    class Array3d {
     private:
         int dim0;
         int dim1;
@@ -108,22 +108,22 @@ namespace Data { // объявление пространства имён
             }
         }
 
-
-        void SetValues01(int i, int j, std::vector<std::vector<T>> values) {
+        
+        void SetValues01(int i, int j, std::vector<T> values) {
             for (int k = 0; k < dim2; k++) {
                 data[i * dim1 * dim2 + j * dim2 + k] = values[k];
             }
         }
 
 
-        void SetValues02(int i, int k, std::vector<std::vector<T>> values) {
+        void SetValues02(int i, int k, std::vector<T> values) {
             for (int j = 0; j < dim1; j++) {
                 data[i * dim1 * dim2 + j * dim2 + k] = values[j];
             }
         }
 
 
-        void SetValues12(int j, int k, std::vector<std::vector<T>> values) {
+        void SetValues12(int j, int k, std::vector<T> values) {
             for (int i = 0; i < dim0; i++) {
                 data[i * dim1 * dim2 + j * dim2 + k] = values[i];
             }
@@ -180,18 +180,53 @@ int main() {
     Data::Array3d<int> arr(2, 3, 4);
 
     arr.SetValues0(0, { {1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12} });
-    arr.SetValues0(1, { {13, 14, 15, 16}, {17, 18, 19, 20}, {21, 22, 23, 24} });
-
-
     arr.arrayPrint();
-
     std::vector<int> slice = arr.GetValues0(0);
-
-
     for (int i : slice) {
         std::cout << i << " ";
     }
-    std::cout << std::endl;
+    std::cout << "\n""\n";
+    arr.SetValues1(1, { {13, 14, 15, 16}, {17, 18, 19, 20}, {21, 22, 23, 24} });
+    arr.arrayPrint();
+    slice = arr.GetValues1(1);
+    for (int i : slice) {
+        std::cout << i << " ";
+    }
+    std::cout << "\n""\n";
+    arr.SetValues2(0, { {25, 26, 27, 28}, {29, 30, 31, 32}, {33, 34, 35, 36} });
+    arr.arrayPrint();
+    slice = arr.GetValues2(2);
+    for (int i : slice) {
+        std::cout << i << " ";
+    }
+    std::cout << "\n""\n";
+    arr.SetValues01(0, 1, { {37, 38, 39, 40} });
+    arr.arrayPrint();
+    slice = arr.GetValues01(0, 1);
+    for (int i : slice) {
+        std::cout << i << " ";
+    }
+    std::cout << "\n""\n";
+    arr.SetValues02(0, 2, { {41, 42, 43, 44} });
+    arr.arrayPrint();
+    slice = arr.GetValues02(0, 2);
+    for (int i : slice) {
+        std::cout << i << " ";
+    }
+    std::cout << "\n""\n";
+    arr.SetValues12(1, 2, { {45, 46, 47, 48} });
+    arr.arrayPrint();
+    slice = arr.GetValues12(0, 2);
+    for (int i : slice) {
+        std::cout << i << " ";
+    }
+    std::cout << "\n""\n";
+    arr.zeros();
+    arr.arrayPrint();
+    arr.ones();
+    arr.arrayPrint();
+    arr.fill(500);
+    arr.arrayPrint();
 
     return 0;
 }

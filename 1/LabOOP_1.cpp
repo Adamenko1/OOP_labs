@@ -8,18 +8,17 @@
 class IntegralCalculation {
 public:
     // Конструктор класса с параметрами numPoints и step
-    IntegralCalculation(int numPoints, double step) {
+    IntegralCalculation(int numPoints) {
         // Проверка на корректность параметров
-        if (numPoints < 2 || step <= 0.0)
+        if (numPoints < 2)
             throw std::invalid_argument("Incorrect parameters"); // Генерация исключения с сообщением об ошибке
         else {
             this->numPoints = numPoints; // Присваивание значений numPoints и step
-            this->step = step;
         }
     }
 
     // Виртуальный метод Calc, который будет переопределен в наследуемых классах
-    virtual double Calc(const std::function<double(double)>& integralFunc, double lowerBound, double upperBound) const = 0;
+    virtual double Calc(const std::function<double(double)>& integralFunc, double lowerBound, double upperBound, double step) const = 0;
 
 protected:
     int numPoints; // Количество точек
@@ -31,12 +30,13 @@ protected:
 class Trapezoidal : public IntegralCalculation {
 public:
     // Конструктор класса с параметрами numPoints и step, вызывающий конструктор базового класса
-    Trapezoidal(int numPoints, double step) : IntegralCalculation(numPoints, step) {}
+    Trapezoidal(int numPoints) : IntegralCalculation(numPoints) {}
 
     // Переопределение метода Calc
-    double Calc(const std::function<double(double)>& integralFunc, double lowerBound, double upperBound) const override {
+    double Calc(const std::function<double(double)>& integralFunc, double lowerBound, double upperBound, double step) const override {
         double result = 0.0; // Инициализация переменной result
         double x = lowerBound; // Присваивание x нижней границе интегрирования
+        step = abs(lowerBound - upperBound) / numPoints;
 
         // Вычисление суммы функций * шага / 2
         for (int i = 0; i < numPoints; ++i) {
@@ -55,14 +55,15 @@ public:
 class Simpson : public IntegralCalculation {
 public:
     // Конструктор класса с параметрами numPoints и step, вызывающий конструктор базового класса
-    Simpson(int numPoints, double step) : IntegralCalculation(numPoints, step) {
+    Simpson(int numPoints) : IntegralCalculation(numPoints) {
         if (numPoints % 2 != 0)
             throw std::invalid_argument("Incorrect parameters: the number of points must be a multiple of two");
     }
 
     // Переопределение метода Calc
-    double Calc(const std::function<double(double)>& integralFunc, double lowerBound, double upperBound) const override {
+    double Calc(const std::function<double(double)>& integralFunc, double lowerBound, double upperBound, double step) const override {
         double result = integralFunc(lowerBound) + integralFunc(upperBound); // Инициализация переменной result суммой значений функции на верхней и нижней границах интегрирования
+        step = abs(lowerBound - upperBound) / numPoints;
         double x = lowerBound + step; // Присваивание x нижней границе интегрирования плюс шаг
 
         // Вычисление суммы f(x) + 2 * f(x + step) + 4 * f*(x + 2 * step) * step / 3
@@ -86,17 +87,16 @@ public:
 int main() {
     try {
         int numPoints = 1000;// Количество точек
-        double step = 0.001;// Шаг интегрирования
         double lowerBound = 0.0;// Нижняя граница интегрирования
         double upperBound = 1.0;// Верхняя граница интегрирования
 
-        Trapezoidal trapezoidal(numPoints, step); // Создание объекта класса Trapezoidal с заданными параметрами
+        Trapezoidal trapezoidal(numPoints); // Создание объекта класса Trapezoidal с заданными параметрами
         auto integralFunc = [](double x) { return x * x; }; // Определение функции integralFunc, возвращающей значение x^2
-        double integralResult = trapezoidal.Calc(integralFunc, lowerBound, upperBound); // Вычисление интеграла методом трапеций
+        double integralResult = trapezoidal.Calc(integralFunc, lowerBound, upperBound, numPoints); // Вычисление интеграла методом трапеций
         std::cout << "Trapezoid method: " << integralResult << std::endl;// Вывод результата интеграла методом трапеций на экран
 
-        Simpson simpson(numPoints, step); // Создание объекта класса Simpson с заданными параметрами
-        integralResult = simpson.Calc(integralFunc, lowerBound, upperBound); // Вычисление интеграла методом Симпсона
+        Simpson simpson(numPoints); // Создание объекта класса Simpson с заданными параметрами
+        integralResult = simpson.Calc(integralFunc, lowerBound, upperBound, numPoints); // Вычисление интеграла методом Симпсона
         std::cout << "Simpson's method: " << integralResult << std::endl;// Вывод результата интеграла методом Симпсона на экран
     }
     catch (const std::exception& e) {

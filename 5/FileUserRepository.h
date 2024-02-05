@@ -72,16 +72,71 @@ public:
         return nullptr;
     }
 
+    int createId() override
+    {
+        int id;
+        if (users.size() == 0) {
+            id = 0;
+            return id;
+        }
+        else {
+            User user = users.back();
+            id = user.getId() + 1;
+            return id;
+        }
+    }
+
+    bool loginVerification(std::string login) override
+    {
+        for (auto number : users) {
+            if (login == number.getLogin())
+                return true;
+        }
+        return false;
+    }
+
+    bool passwordVerification(std::string password) override
+    {
+        for (auto number : users) {
+            if (password == number.getPassword())
+                return true;
+        }
+        return false;
+    }
+
+    bool AllVerification(std::string login, std::string password) override
+    {
+        for (auto number : users) {
+            if (login == number.getLogin() && password == number.getPassword()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    User userData(std::string login, std::string password) override
+    {
+        for (auto user : users) {
+            if (user.getLogin() == login && user.getPassword() == password) {
+                return user;
+            }
+        }
+    }
+
+    User getDataUserById(int id) override {
+        for (User& user : users) {
+            if (user.getId() == id) {
+                return user;
+            }
+        }
+    }
+
 private:
     void loadUsersFromFile()
     {
         users.clear();
 
         std::ifstream file(filePath);
-        if (!file.is_open())
-        {
-            return;
-        }
 
         std::string line;
         while (getline(file, line)) {

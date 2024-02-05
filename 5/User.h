@@ -13,6 +13,7 @@ public:
     User(const int& id, const std::string& login, const std::string& password, const std::string& name)
         : id(id), login(login), password(password), name(name) {}
 
+
     int getId() const
     {
         return id;

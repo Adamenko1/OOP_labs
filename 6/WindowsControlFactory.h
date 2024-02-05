@@ -15,43 +15,24 @@ private:
 public:
     WindowsControlFactory()
     {
-        osName = std::string(std::getenv("OS")) + std::string("ControlFactory");
-        std::cout << "Creating WindowsControlFactory" << std::endl;
+        std::cout << "Creating WindowsControlFactory" << '\n';
     }
-
     Label* createLabel() override
     {
-        if (osName.find("Windows") != std::string::npos)
-        {
-            return new WindowsLabel();
-        }
-        return nullptr;
+        return new WindowsLabel();
     }
 
     TextBox* createTextBox() override
     {
-        if (osName.find("Windows") != std::string::npos)
-        {
-            return new WindowsTextBox();
-        }
-        return nullptr;
+        return new WindowsTextBox();
     }
 
     ComboBox* createComboBox() override
     {
-        if (osName.find("Windows") != std::string::npos)
-        {
-            return new WindowsComboBox();
-        }
-        return nullptr;
+        return new WindowsComboBox();
     }
 
-    Button* createButton() override
-    {
-        if (osName.find("Windows") != std::string::npos)
-        {
-            return new WindowsButton();
-        }
-        return nullptr;
+    Button* createButton() override {
+        return new WindowsButton();
     }
 };

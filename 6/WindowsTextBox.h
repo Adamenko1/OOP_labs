@@ -9,14 +9,16 @@ protected:
 	std::string text;
 
 public:
-	void setText(std::string& newText) override
+	void setText(std::string newText) override
 	{
-		text = newText;
+		std::cout << "Windows TextBox Text Seted" << '\n';
+		this->text = newText;
 	}
 
-	const std::string& getText() const override
+	const std::string getText() override
 	{
-		return text;
+		std::cout << "Windows TextBox: ";
+		return this->text;
 	}
 
 	void onValueChanged() override

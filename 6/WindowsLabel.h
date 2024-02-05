@@ -9,13 +9,15 @@ protected:
 	std::string text;
 
 public:
-	void setText(std::string& text) override
+	void setText(std::string text) override
 	{
-		std::cout << "Method called from Windows Button" << '\n';
+		std::cout << "Windows Label Text Seted" << '\n';
+		this->text = text;
 	}
 
-	const std::string& getText() const override
+	const std::string getText() const override
 	{
-		return text;
+		std::cout << "Windows Label: ";
+		return this->text;
 	}
 };

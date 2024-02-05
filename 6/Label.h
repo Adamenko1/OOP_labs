@@ -5,6 +5,6 @@
 __interface Label
 {
 public:
-	void setText(std::string& text);
-	const std::string& getText() const;
+	void setText(std::string text);
+	const std::string getText() const;
 };

@@ -10,9 +10,10 @@ class LinButton : public Button, public Control
     std::string text;
 
 public:
-    void setText(std::string& newText) override
+    void setText(std::string newText) override
     {
-        text = newText;
+        std::cout << "Linux Button Text Seted" << '\n';
+        this->text = newText;
     }
 
     void setOnClick() override
@@ -20,13 +21,14 @@ public:
         std::cout << "Method called from Linux Button" << '\n';
     }
 
-    const std::string& getText() const override
+    const std::string getText() const override
     {
-        return text;
+        std::cout << "Linux Button: ";
+        return this->text;
     }
 
     void click() override
     {
-        std::cout << "Button clicked" << '\n';
+        std::cout << "Linux Button clicked" << '\n';
     }
 };

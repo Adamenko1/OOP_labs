@@ -12,21 +12,25 @@ class LinComboBox : public Control, public ComboBox
 public:
     void setSelectedIndex(int index)
     {
-        std::cout << "Method called from Linux Button" << '\n';
+        this->selectedIndex = index;
+        std::cout << "Linux index selected" << '\n';
     }
 
     void setItems(std::vector<std::string> items)
     {
-        std::cout << "Method called from Linux Button" << '\n';
+        this->items = items;
+        std::cout << "Linux items selected" << '\n';
     }
 
     const int getSelectedIndex() const override
     {
-        return selectedIndex;
+        std::cout << "Linux Selected Index: ";
+        return this->selectedIndex;
     }
 
-    const std::vector<std::string>& getItems() const override
+    const std::vector<std::string> getItems() const override
     {
-        return items;
+        std::cout << "Linux Items: " << '\n';
+        return this->items;
     }
 };

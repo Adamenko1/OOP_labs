@@ -9,13 +9,15 @@ protected:
 	std::string text;
 
 public:
-	void setText(std::string& text) override
+	void setText(std::string text) override
 	{
-		std::cout << "Method called from Linux Button" << '\n';
+		std::cout << "Linux Label Text Seted" << '\n';
+		this->text = text;
 	}
 
-	const std::string& getText() const override
+	const std::string getText() const override
 	{
-		return text;
+		std::cout << "Linux Label: ";
+		return this->text;
 	}
 };

@@ -15,43 +15,24 @@ private:
 public:
     OSControlFactory()
     {
-        osName = std::string(std::getenv("OS")) + std::string("ControlFactory");
-        std::cout << "Creating OSControlFactory" << std::endl;
+        std::cout << "Creating MacOSControlFactory" << '\n';
     }
-
     Label* createLabel() override
     {
-        if (osName.find("MacOS") != std::string::npos)
-        {
-            return new OSLabel();
-        }
-        return nullptr;
+        return new OSLabel();
     }
 
     TextBox* createTextBox() override
     {
-        if (osName.find("MacOS") != std::string::npos)
-        {
-            return new OSTextBox();
-        }
-        return nullptr;
+        return new OSTextBox();
     }
 
     ComboBox* createComboBox() override
     {
-        if (osName.find("MacOS") != std::string::npos)
-        {
-            return new OSComboBox();
-        }
-        return nullptr;
+        return new OSComboBox();
     }
 
-    Button* createButton() override
-    {
-        if (osName.find("MacOS") != std::string::npos)
-        {
-            return new OSButton();
-        }
-        return nullptr;
+    Button* createButton() override {
+        return new OSButton();
     }
 };
